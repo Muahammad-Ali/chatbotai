@@ -3,7 +3,16 @@
     "builds": [
       {
         "src": "Dockerfile",
-        "use": "docker"
+        "use": "@vercel/docker",
+        "config": {
+          "dockerfile": "Dockerfile"
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/"
       }
     ]
   }
