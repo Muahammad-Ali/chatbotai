@@ -5,12 +5,6 @@
         "src": "Dockerfile",
         "use": "docker"
       }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/"
-      }
     ]
   }
   
