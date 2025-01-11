@@ -1,19 +1,26 @@
 # Use an official PHP runtime as a parent image
 FROM php:7.4-apache
 
-# Copy the current directory contents into the container at /var/www/html
-COPY . /var/www/html/
+# Set working directory
+WORKDIR /var/www/html
 
-# Install necessary PHP extensions (adjust based on your project needs)
+# Copy the current directory contents into the container
+COPY . .
+
+# Install necessary PHP extensions
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     && docker-php-ext-install zip
 
-# Enable Apache mod_rewrite for friendly URLs, if needed
+# Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Expose port 80 to the outside world
+# Install Composer dependencies
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
+RUN composer install
+
+# Expose port 80
 EXPOSE 80
 
-# Start the Apache server in the foreground
+# Start the Apache server
 CMD ["apache2-foreground"]
